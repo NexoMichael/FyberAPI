@@ -1,9 +1,9 @@
 class OfferApiRequest
 
   FIELDS = [
-      :format, :appid, :uid, :locale, :os_version,
+      :format, :appid, :uid, :locale, :device_id, :os_version,
       :apple_idfa, :apple_idfa_tracking_enabled,
-      :ip, :pub0, :page, :offer_types, :ps_time, :device
+      :ip, :pub0, :page, :offer_types, :ps_time, :device, :timestamp
   ].sort().freeze
 
   MANDATORY_FIELDS = [
@@ -19,14 +19,16 @@ class OfferApiRequest
     missed_fields = OfferApiRequest::MANDATORY_FIELDS - params.keys
     raise ArgumentError.new("Fields [#{missed_fields.join(', ')}] are missed") if missed_fields.any?
     self.params = params
-    self.params[:timestamp] = Time.now.to_i
+    self.params[:timestamp] = Time.now.to_i unless self.params[:timestamp]
   end
+
+private
 
   def get_params_string_without_hash
     FIELDS.map { |field|
       value = self.params[field]
-      value ? "#{field}=#{value}" : ''
-    }.join('&')
+      value ? "#{field}=#{value}" : nil
+    }.compact.join('&')
   end
 
 end

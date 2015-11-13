@@ -50,6 +50,31 @@ describe OfferApiRequest do
     expect(timestamp).to be_between(t1, t2)
   end
 
+
+  TEST_REQUEST = {
+      appid: 157,
+      uid: 'player1',
+      ip: '212.45.111.17',
+      locale: 'de',
+      device_id: '2b6f0cc904d137be2e1730235f5664094b831186',
+      ps_time: 1312211903,
+      pub0: 'campaign2',
+      page: 2,
+      timestamp: 1312553361,
+      os_version: nil, # It is not normal cause this fields are mandatory
+      apple_idfa: nil,
+      apple_idfa_tracking_enabled: nil
+  }
+
+  it 'should concatenate all request parameters' do
+    request = OfferApiRequest.new(TEST_REQUEST)
+    expect(
+        request.send(:get_params_string_without_hash)
+    ).to match(
+        'appid=157&device_id=2b6f0cc904d137be2e1730235f5664094b831186&ip=212.45.111.17&locale=de&page=2&ps_time=1312211903&pub0=campaign2&timestamp=1312553361&uid=player1'
+    )
+  end
+
   private
 
   def options_from_list(list = [])
