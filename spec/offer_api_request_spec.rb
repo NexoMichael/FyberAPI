@@ -71,8 +71,16 @@ describe OfferApiRequest do
     expect(
         request.send(:get_params_string_without_hash)
     ).to match(
-        'appid=157&device_id=2b6f0cc904d137be2e1730235f5664094b831186&ip=212.45.111.17&locale=de&page=2&ps_time=1312211903&pub0=campaign2&timestamp=1312553361&uid=player1'
-    )
+             'appid=157&device_id=2b6f0cc904d137be2e1730235f5664094b831186&ip=212.45.111.17&locale=de&page=2&ps_time=1312211903&pub0=campaign2&timestamp=1312553361&uid=player1'
+         )
+  end
+
+  it 'should generate hashkey' do
+    request = OfferApiRequest.new(TEST_REQUEST)
+    params = request.send(:get_params_string_without_hash)
+    expect(
+        request.send(:calculate_hashkey, params, 'e95a21621a1865bcbae3bee89c4d4f84')
+    ).to match('7a2b1604c03d46eec1ecd4a686787b75dd693c4d')
   end
 
   private

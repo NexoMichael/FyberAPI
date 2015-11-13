@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 class OfferApiRequest
 
   FIELDS = [
@@ -22,13 +24,17 @@ class OfferApiRequest
     self.params[:timestamp] = Time.now.to_i unless self.params[:timestamp]
   end
 
-private
+  private
 
   def get_params_string_without_hash
     FIELDS.map { |field|
       value = self.params[field]
       value ? "#{field}=#{value}" : nil
     }.compact.join('&')
+  end
+
+  def calculate_hashkey(params, api_key)
+    Digest::SHA1.hexdigest("#{params}&#{api_key}")
   end
 
 end
