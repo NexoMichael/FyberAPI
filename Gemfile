@@ -14,5 +14,5 @@ group :development do
 end
 
 group :test do
-  gem 'capistrano', '3.4.0'
+  gem 'rspec'
 end
