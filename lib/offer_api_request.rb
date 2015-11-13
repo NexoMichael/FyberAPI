@@ -24,6 +24,12 @@ class OfferApiRequest
     self.params[:timestamp] = Time.now.to_i unless self.params[:timestamp]
   end
 
+  def request(api_key)
+    params = get_params_string_without_hash
+    hashkey = calculate_hashkey(params, api_key)
+    "#{params}&hashkey=#{hashkey}"
+  end
+
   private
 
   def get_params_string_without_hash
