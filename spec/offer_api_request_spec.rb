@@ -5,7 +5,7 @@ describe OfferApiRequest do
   it 'should be created if all fields are provided' do
     options = options_from_list([
                                     :format, :appid, :uid, :locale, :os_version,
-                                    :timestamp, :apple_idfa, :apple_idfa_tracking_enabled,
+                                    :apple_idfa, :apple_idfa_tracking_enabled,
                                     :ip, :pub0, :page, :offer_types, :ps_time, :device])
 
     OfferApiRequest.new(options)
@@ -25,7 +25,7 @@ describe OfferApiRequest do
 
   it 'should set <params> if object is created' do
     params = {}
-    [:uid, :os_version, :timestamp, :apple_idfa, :apple_idfa_tracking_enabled].each do |k|
+    [:uid, :os_version, :apple_idfa, :apple_idfa_tracking_enabled].each do |k|
       params[k] = Random.rand
     end
     request = OfferApiRequest.new(params)
@@ -34,6 +34,20 @@ describe OfferApiRequest do
     params.each do |k, v|
       expect(request.params[k]).equal?(v)
     end
+  end
+
+  it 'should fill timestamp automatically' do
+    options = options_from_list([
+                                    :format, :appid, :uid, :locale, :os_version,
+                                    :apple_idfa, :apple_idfa_tracking_enabled,
+                                    :ip, :pub0, :page, :offer_types, :ps_time, :device])
+    t1 = Time.now.to_i
+    request = OfferApiRequest.new(options)
+    t2 = Time.now.to_i
+
+    timestamp = request.params[:timestamp]
+    expect(timestamp).is_a?(Integer)
+    expect(timestamp).to be_between(t1, t2)
   end
 
   private
