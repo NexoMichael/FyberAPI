@@ -43,4 +43,31 @@ describe FyberAPI do
   end
 
 
+  it 'should receive real response' do
+    skip 'This is not real test but check of real request'
+    config = {
+        appid: 157,
+        format: 'json',
+        device_id: '2b6f0cc904d137be2e1730235f5664094b83',
+        locale: 'de',
+        ip: '109.235.143.113'
+    }
+    api_key = 'b07a12df7d52e6c118e5d47d3f9e60135b109a1f'
+
+    api = FyberAPI.new(api_key, config)
+
+    request = {
+        offer_types: 112,
+        uid: 'player1',
+        pub0: 'campaign2',
+        page: 2,
+        os_version: nil,
+        apple_idfa: nil,
+        apple_idfa_tracking_enabled: nil
+    }
+    payload = api.get_offers(request)
+    expect(payload['code']).to match('OK')
+  end
+
+
 end

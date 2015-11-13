@@ -1,3 +1,4 @@
+require 'json'
 require_relative 'offer_api_request'
 #
 # Implementation of FyberAPI
@@ -21,7 +22,7 @@ class FyberAPI
     @application_config = DEFAULTS.merge(options.delete_if { |k| !DEFAULTS.keys.include?(k) })
   end
 
-  def self.get_offers(options = {})
+  def get_offers(options = {})
     get_response(create_request_string(options))
   end
 
@@ -30,13 +31,20 @@ class FyberAPI
   def create_request_string(options = {})
     options = options.merge(@application_config)
     request_string = OfferApiRequest.new(options).request(@api_key)
-    a = "#{OFFERS_URL}?#{request_string}"
-    puts a
-    a
+    "#{OFFERS_URL}?#{request_string}"
   end
 
   def get_response(request_string)
-    Net::HTTP.get(URI(request_string))
+    parse_response(Net::HTTP.get(URI(request_string)))
+  end
+
+  def parse_response(response)
+    case @application_config[:format]
+    when 'json'
+      JSON.parse(response)
+    else
+      raise ArgumentError.new('Response format is not supported')
+    end
   end
 
 end
