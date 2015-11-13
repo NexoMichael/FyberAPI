@@ -38,13 +38,8 @@ describe FyberAPI do
 
   it 'should create api object for offer request' do
     api = FyberAPI.new('e95a21621a1865bcbae3bee89c4d4f84', CONFIG)
-    request_object = api.send(:create_request_string, TEST_REQUEST2)
-    expect(request_object).to(
-        match(
-            'appid=157&device=tablet&format=json&ip=212.45.111.17&locale=de&page=2&ps_time=1312211903&pub0=campaign2&timestamp=1312553361&uid=player1&hashkey=778bc22b29ab049a4d95be18146572573151ad2b'
-        )
-    )
-
+    request_string = api.send(:create_request_string, TEST_REQUEST2)
+    expect(request_string).to match('http://api.fyber.com/feed/v1/offers.json?appid=157&device=tablet&format=json&ip=212.45.111.17&locale=de&page=2&ps_time=1312211903&pub0=campaign2&timestamp=1312553361&uid=player1&hashkey=778bc22b29ab049a4d95be18146572573151ad2b')
   end
 
 

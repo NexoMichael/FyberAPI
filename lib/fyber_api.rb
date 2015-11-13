@@ -22,21 +22,21 @@ class FyberAPI
   end
 
   def self.get_offers(options = {})
-    request_string = create_request_string(options)
-    get_response(request_string)
+    get_response(create_request_string(options))
   end
 
   private
 
   def create_request_string(options = {})
     options = options.merge(@application_config)
-    OfferApiRequest.new(options).request(@api_key)
+    request_string = OfferApiRequest.new(options).request(@api_key)
+    a = "#{OFFERS_URL}?#{request_string}"
+    puts a
+    a
   end
 
   def get_response(request_string)
-    request_string = "#{OFFERS_URL}?#{request_string}"
-    uri = URI(request_string)
-    Net::HTTP.get(uri)
+    Net::HTTP.get(URI(request_string))
   end
 
 end
