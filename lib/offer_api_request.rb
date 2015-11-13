@@ -20,6 +20,7 @@ class OfferApiRequest
     raise ArgumentError.new("Fields [#{wrong_fields.join(', ')}] are not usable") if wrong_fields.any?
     missed_fields = OfferApiRequest::MANDATORY_FIELDS - params.keys
     raise ArgumentError.new("Fields [#{missed_fields.join(', ')}] are missed") if missed_fields.any?
+    # TODO: add additional fields validation
     self.params = params
     self.params[:timestamp] = Time.now.to_i unless self.params[:timestamp]
   end
