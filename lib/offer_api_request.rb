@@ -10,12 +10,15 @@ class OfferApiRequest
       :uid, :os_version, :timestamp, :apple_idfa, :apple_idfa_tracking_enabled
   ].freeze
 
-  def initialize(options = {})
-    keys = options.keys
+  attr_accessor :params
+
+  def initialize(params = {})
+    keys = params.keys
     wrong_fields = keys - OfferApiRequest::FIELDS
     raise ArgumentError.new("Fields #{wrong_fields.join(',')} are not usable") if wrong_fields.any?
-    missed_fields = OfferApiRequest::MANDATORY_FIELDS - options.keys
+    missed_fields = OfferApiRequest::MANDATORY_FIELDS - params.keys
     raise ArgumentError.new("Fields #{missed_fields.join(',')} are missed") if missed_fields.any?
+    self.params = params
   end
 
 end
