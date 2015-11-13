@@ -50,7 +50,6 @@ describe OfferApiRequest do
     expect(timestamp).to be_between(t1, t2)
   end
 
-
   TEST_REQUEST = {
       appid: 157,
       uid: 'player1',
