@@ -1,4 +1,26 @@
 %html
   %head
+    %title Fyber API
+    %link{rel:'stylesheet', href: 'css/app.css', media: 'screen', type: 'text/css'}
+    %script{type: 'text/javascript', src: 'js/app.js'}
   %body
-    = yield
+    %section
+      .leftpanel
+        .logopanel
+          %h1
+            %span [
+            Fyber API
+            %span ]
+        .leftpanelinner
+          %h5.sidebartitle Navigation
+          %ul.nav.nav-pills.nav-stacked.nav-bracket
+            %li{class: 'active'}
+            %a{href: '/'}
+              %span Offers API
+      .mainpanel
+        .headerbar
+        .pageheader
+          %h2 Offers API
+        .contentpanel
+          = yield
+      .rightpanel
