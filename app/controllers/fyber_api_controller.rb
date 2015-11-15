@@ -2,6 +2,7 @@
 require 'json'
 require_relative '../../lib/fyber_api'
 require_relative '../../lib/offer_api_request'
+require_relative 'application_controller'
 
 class FyberAPIController < ApplicationController
   get '/' do
