@@ -42,6 +42,39 @@ describe FyberAPI do
     expect(request_string).to match('http://api.fyber.com/feed/v1/offers.json?appid=157&device=tablet&format=json&ip=212.45.111.17&locale=de&page=2&ps_time=1312211903&pub0=campaign2&timestamp=1312553361&uid=player1&hashkey=778bc22b29ab049a4d95be18146572573151ad2b')
   end
 
+  it 'should validate response using request header' do
+    api = FyberAPI.new('e95a21621a1865bcbae3bee89c4d4f84', CONFIG)
+    response = OpenStruct.new(
+        {
+            body: 'some_body',
+            'X-Sponsorpay-Response-Signature' => '79ed5aefb0291b66f7c2d7ddc2977e13f15408f1'
+        }
+    )
+    expect(api.send(:response_valid?, response)).to match(true)
+  end
+
+  it 'should validate response using request header and fail in case of error' do
+    api = FyberAPI.new('e95a21621a1865bcbae3bee89c4d4f84', CONFIG)
+    response = OpenStruct.new(
+        {
+            body: 'some_body',
+            'X-Sponsorpay-Response-Signature' => '123123'
+        }
+    )
+    expect(api.send(:response_valid?, response)).to match(false)
+  end
+
+  it 'should validate response using request header and fail in case of not full response' do
+    api = FyberAPI.new('e95a21621a1865bcbae3bee89c4d4f84', CONFIG)
+    response = OpenStruct.new({ body: 'some_body' })
+    expect(api.send(:response_valid?, response)).to match(false)
+  end
+
+
+  # def response_valid?(response)
+  #   Digest::SHA1.hexdigest(response.body + @api_key) == response['X-Sponsorpay-Response-Signature']
+  # end
+
 
   it 'should receive real response' do
     skip 'This is not real test but check of real request'

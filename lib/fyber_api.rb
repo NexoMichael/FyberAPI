@@ -35,7 +35,13 @@ class FyberAPI
   end
 
   def get_response(request_string)
-    parse_response(Net::HTTP.get(URI(request_string)))
+    response = Net::HTTP.get_response(URI(request_string))
+    raise RuntimeError.new('Response is not valid') unless response_valid?(response)
+    parse_response(response.body)
+  end
+
+  def response_valid?(response)
+    Digest::SHA1.hexdigest(response.body + @api_key) == response['X-Sponsorpay-Response-Signature']
   end
 
   def parse_response(response)

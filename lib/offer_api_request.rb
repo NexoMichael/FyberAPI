@@ -9,7 +9,9 @@ class OfferApiRequest
   ].sort().freeze
 
   MANDATORY_FIELDS = [
-      :uid, :os_version, :apple_idfa, :apple_idfa_tracking_enabled
+      :uid
+      # This fields are listed as mandatory in the documentation, but they are really not
+      # :os_version, :apple_idfa, :apple_idfa_tracking_enabled
   ].freeze
 
   attr_accessor :params
