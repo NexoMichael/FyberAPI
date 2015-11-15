@@ -70,12 +70,6 @@ describe FyberAPI do
     expect(api.send(:response_valid?, response)).to match(false)
   end
 
-
-  # def response_valid?(response)
-  #   Digest::SHA1.hexdigest(response.body + @api_key) == response['X-Sponsorpay-Response-Signature']
-  # end
-
-
   it 'should receive real response' do
     skip 'This is not real test but check of real request'
     config = {
@@ -101,6 +95,5 @@ describe FyberAPI do
     payload = api.get_offers(request)
     expect(payload['code']).to match('OK')
   end
-
 
 end

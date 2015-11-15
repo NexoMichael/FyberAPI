@@ -37,7 +37,7 @@ class OfferApiRequest
 
   def get_params_string_without_hash
     FIELDS.map { |field|
-      value = self.params[field]
+      value = URI.escape(self.params[field].to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
       value ? "#{field}=#{value}" : nil
     }.compact.join('&')
   end
